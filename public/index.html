@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="./components.js"></script>
+</head>
+<body>
+    <button style="position: fixed; top: 10px; width:200px; text-align: center; z-index: 1;" id="previous-button" type="button">Previous</button>
+    <button style="position: fixed; top: 50px; width:200px; text-align: center; z-index: 1;" id="next-button" type="button">Next</button>
+
+    <a-scene embedded arjs sender>
+        <a-assets>
+            <a-asset-item id="architecture-concept" src="./assets/models/architecture-concept.glb"></a-asset-item>
+            <a-asset-item id="architecture-sketch" src="./assets/models/architecture-sketch.glb"></a-asset-item>
+            <a-asset-item id="shock-absorber" src="./assets/models/shock-absorber.glb"></a-asset-item>
+            <a-asset-item id="skull" src="./assets/models/skull.glb"></a-asset-item>
+            <a-asset-item id="wooden-crate" src="./assets/models/wooden-crate.glb"></a-asset-item>
+        </a-assets>
+
+        <a-marker preset="hiro">
+            <a-entity id="hexbox" hexbox>
+            </a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+</html>
