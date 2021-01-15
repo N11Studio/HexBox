@@ -24,7 +24,7 @@ const BACK_PLANE_COLOR = '#FFB300';
 const socket = io();
 
 socket.on ('hello', function(data) {
-    console.log("hello!")
+    console.log("hello, Nizar!")
 })
 
 let architectureConceptModel = {
