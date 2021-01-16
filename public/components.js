@@ -1,10 +1,10 @@
-//To Finalize
-//<a-entity id="hexbox" hexbox></a-entity>
+// To Finalize
+// <a-entity id="hexbox" hexbox></a-entity>
 
-//To Test
-//<a-entity scale="0.01 0.01 0.01" gltf-model="#shock-absorber">
+// To Test
+// <a-entity scale="0.01 0.01 0.01" gltf-model="#shock-absorber">
 //    <a-box scale="300 300 300"material="transparent: true; color: red; opacity: 0.5"></a-box>
-//</a-entity>
+// </a-entity>
 
 
 let sensorRight = 500;
@@ -20,7 +20,7 @@ let buttonTop = 0;
 let buttonBottom = 0;
 let buttonFront = 0;
 let buttonBack = 0
- 
+
 
 const ROOT_OFFSET_X = 0;
 const ROOT_OFFSET_Y = 0;
@@ -36,24 +36,24 @@ const FRONT_PLANE_COLOR = '#43A047';
 const BACK_PLANE_COLOR = '#FFB300';
 
 const socket = io();
-window.onload = function (){
+window.onload = function () {
 
 
-socket.on ('hello', function(data) {
-    console.log("hello, Nizar!")
-})
+    socket.on('hello', function (data) {
+        console.log("hello, Nizar!")
+    })
 
-// Establish socket connection
+    // Establish socket connection
 
-setInterval(function(){
-    socket.emit('getTouch', "lol")}
-    ,100)
+    setInterval(function () {
+        socket.emit('getTouch', "lol")
+    }, 100)
 
 
 }
 
-socket.on ('touch', function(data) {
-    
+socket.on('touch', function (data) {
+
     sensorRight = data.right;
     sensorLeft = data.left;
     sensorTop = data.top;
@@ -67,12 +67,10 @@ socket.on ('touch', function(data) {
     buttonBottom = data.bottomtouch;
     buttonFront = data.fronttouch;
     buttonBack = data.backtouch;
-    
-   //console.log (buttonBottom);
 
-     })
+    // console.log (buttonBottom);
 
-
+})
 
 
 let architectureConceptModel = {
@@ -81,7 +79,7 @@ let architectureConceptModel = {
     height: 2,
     depth: 2,
     minScale: 0.01,
-    maxScale: 0.03,
+    maxScale: 0.03
 }
 
 let architectureSketchModel = {
@@ -90,7 +88,7 @@ let architectureSketchModel = {
     height: 2,
     depth: 2,
     minScale: 0.0001,
-    maxScale: 0.0001,
+    maxScale: 0.0001
 }
 
 let shockAbsorberModel = {
@@ -99,7 +97,7 @@ let shockAbsorberModel = {
     height: 300,
     depth: 160,
     minScale: 0.01,
-    maxScale: 0.03,
+    maxScale: 0.03
 }
 
 let skullModelModel = {
@@ -121,21 +119,21 @@ let woodenCrateModel = {
 }
 
 let models = []
-//models.push(architectureConceptModel);
-//models.push(architectureSketchModel);
+// models.push(architectureConceptModel);
+// models.push(architectureSketchModel);
 models.push(shockAbsorberModel);
 models.push(skullModelModel);
 models.push(woodenCrateModel);
 
 
-//console.log (sensorRight);
+// console.log (sensorRight);
 
 AFRAME.registerComponent('sender', {
-    init: function() {
+    init: function () {
 
         const receiver = document.getElementById('hexbox');
-       
-        setInterval(() =>{
+
+        setInterval(() => {
             // let sensorRight = 500;
             // let sensorLeft = 500;
             // let sensorTop = 500;
@@ -150,31 +148,39 @@ AFRAME.registerComponent('sender', {
             // let buttonFront = 0;
             // let buttonBack = 0
 
-            receiver.emit('touch',{ sensorRight: sensorRight, sensorLeft: sensorLeft,
-                                    sensorTop: sensorTop, sensorBottom: sensorBottom,
-                                    sensorFront: sensorFront, sensorBack: sensorBack,
-                                    buttonRight: buttonRight, buttonLeft: buttonLeft,
-                                    buttonTop: buttonTop, buttonBottom: buttonBottom,
-                                    buttonFront: buttonFront, buttonBack: buttonBack})
+            receiver.emit('touch', {
+                sensorRight: sensorRight,
+                sensorLeft: sensorLeft,
+                sensorTop: sensorTop,
+                sensorBottom: sensorBottom,
+                sensorFront: sensorFront,
+                sensorBack: sensorBack,
+                buttonRight: buttonRight,
+                buttonLeft: buttonLeft,
+                buttonTop: buttonTop,
+                buttonBottom: buttonBottom,
+                buttonFront: buttonFront,
+                buttonBack: buttonBack
+            })
         }, 30)
-    },
+    }
 });
 
 AFRAME.registerComponent('hexbox', {
-    init: function(){
+    init: function () {
         const el = this.el;
 
-        //Load ThreeJS model loader
+        // Load ThreeJS model loader
         const modelLoader = new THREE.GLTFLoader();
 
         // set-up renderer
-        renderer = new THREE.WebGLRenderer({ antialias:true, logarithmicDepthBuffer:true, alpha:true, preserveDrawingBuffer:true });
+        renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true, alpha: true, preserveDrawingBuffer: true});
 
 
-        //Enable clipping [lanes in the renderer
+        // Enable clipping [lanes in the renderer
         el.sceneEl.renderer.localClippingEnabled = true;
 
-        //Offset root element from constants
+        // Offset root element from constants
         el.setAttribute('position', `${ROOT_OFFSET_X} ${ROOT_OFFSET_Y} ${ROOT_OFFSET_Z}`)
 
         let hexboxParentEl;
@@ -183,11 +189,11 @@ AFRAME.registerComponent('hexbox', {
 
         loadModels()
 
-        //Load all glb models from source and the received asset to each model as property
+        // Load all glb models from source and the received asset to each model as property
         function loadModels() {
-            for (i = 0; i < models.length; i++) {
+            for (i = 0; i < models.length; i ++) {
                 model = models[i]
-                modelLoader.load(model.src, function(modelAsset) {
+                modelLoader.load(model.src, function (modelAsset) {
                     let asset = modelAsset.scene || modelAsset.scenes[0];
                     asset.animations = modelAsset.animations;
                     onModelLoaded(asset)
@@ -195,7 +201,7 @@ AFRAME.registerComponent('hexbox', {
             }
         }
 
-        //Add asset to each model then initialize experience
+        // Add asset to each model then initialize experience
         function onModelLoaded(asset) {
             models[numberOfModelsLoaded].asset = asset
             numberOfModelsLoaded++;
@@ -224,8 +230,7 @@ AFRAME.registerComponent('hexbox', {
                 chosenModel -= 1;
             } else {
                 chosenModel = models.length - 1;
-            }
-            changeHexboxModel()
+            } changeHexboxModel()
         }
 
         function changeToNextModel() {
@@ -233,8 +238,7 @@ AFRAME.registerComponent('hexbox', {
                 chosenModel += 1;
             } else {
                 chosenModel = 0;
-            }
-            changeHexboxModel()
+            } changeHexboxModel()
         }
 
         function changeHexboxModel() {
@@ -243,9 +247,8 @@ AFRAME.registerComponent('hexbox', {
 
         values = {};
 
-        //Start listening to sensors values from touch event
-        el.addEventListener('touch', (e) => {
-            //Ensure all elements are loaded before updating values
+        // Start listening to sensors values from touch event
+        el.addEventListener('touch', (e) => { // Ensure all elements are loaded before updating values
             if (hexboxParentEl != null) {
                 values.sensorRight = e.detail.sensorRight;
                 values.sensorLeft = e.detail.sensorLeft;
@@ -280,7 +283,7 @@ AFRAME.registerComponent('hexbox', {
                 buttonTop: values.buttonTop,
                 buttonBottom: values.buttonBottom,
                 buttonFront: values.buttonFront,
-                buttonBack: values.buttonBack,
+                buttonBack: values.buttonBack
             })
         }
     }
@@ -289,24 +292,49 @@ AFRAME.registerComponent('hexbox', {
 
 AFRAME.registerComponent('hexbox-parent', {
     schema: {
-        chosenModel: {type: 'int'},
+        chosenModel: {
+            type: 'int'
+        },
 
-        sensorRight: {type: 'number'},
-        sensorLeft: {type: 'number'},
-        sensorTop: {type: 'number'},
-        sensorBottom: {type: 'number'},
-        sensorFront: {type: 'number'},
-        sensorBack: {type: 'number'},
+        sensorRight: {
+            type: 'number'
+        },
+        sensorLeft: {
+            type: 'number'
+        },
+        sensorTop: {
+            type: 'number'
+        },
+        sensorBottom: {
+            type: 'number'
+        },
+        sensorFront: {
+            type: 'number'
+        },
+        sensorBack: {
+            type: 'number'
+        },
 
-        buttonRight: {type: 'int'},
-        buttonLeft: {type: 'int'},
-        buttonTop: {type: 'int'},
-        buttonBottom: {type: 'int'},
-        buttonFront: {type: 'int'},
-        buttonBack: {type: 'int'},
+        buttonRight: {
+            type: 'int'
+        },
+        buttonLeft: {
+            type: 'int'
+        },
+        buttonTop: {
+            type: 'int'
+        },
+        buttonBottom: {
+            type: 'int'
+        },
+        buttonFront: {
+            type: 'int'
+        },
+        buttonBack: {
+            type: 'int'
+        }
     },
-    init: function () {
-        //console.log('a')
+    init: function () { // console.log('a')
         const el = this.el;
         const data = this.data;
 
@@ -330,11 +358,11 @@ AFRAME.registerComponent('hexbox-parent', {
         function initHexboxIndicator() {
             hexboxIndicatorEl = document.createElement('a-entity');
             hexboxIndicatorEl.setAttribute('id', 'hexbox-indicator');
-            hexboxIndicatorEl.setAttribute('hexbox-idicator', { chosenModel: data.chosenModel })
+            hexboxIndicatorEl.setAttribute('hexbox-idicator', {chosenModel: data.chosenModel})
             el.appendChild(hexboxIndicatorEl);
         }
     },
-    update: function() {
+    update: function () {
         const el = this.el;
         const data = this.data;
         const sensorRange = MAX_SENSOR_VALUE - MIN_SENSOR_VALUE;
@@ -366,15 +394,15 @@ AFRAME.registerComponent('hexbox-parent', {
         }
 
         function calculateXAxisValue(number) {
-            return model.width/2 - model.width * number;
+            return model.width / 2 - model.width * number;
         }
 
         function calculateYAxisValue(number) {
-            return model.height/2 - model.height * number;
+            return model.height / 2 - model.height * number;
         }
 
         function calculateZAxisValue(number) {
-            return model.depth/2 - model.depth * number;
+            return model.depth / 2 - model.depth * number;
         }
 
         const hexboxModelEl = document.getElementById('hexbox-model');
@@ -410,11 +438,21 @@ AFRAME.registerComponent('hexbox-parent', {
 
 AFRAME.registerComponent('hexbox-model', {
     schema: {
-        leftClip: {type: 'number'},
-        rightClip: {type: 'number'},
-        frontClip: {type: 'number'},
-        backClip: {type: 'number'},
-        topClip: {type: 'number'}
+        leftClip: {
+            type: 'number'
+        },
+        rightClip: {
+            type: 'number'
+        },
+        frontClip: {
+            type: 'number'
+        },
+        backClip: {
+            type: 'number'
+        },
+        topClip: {
+            type: 'number'
+        }
     },
     init: function () {
         this.el.addEventListener('model-loaded', this.update.bind(this));
@@ -424,14 +462,14 @@ AFRAME.registerComponent('hexbox-model', {
         const data = this.data;
 
         var mesh = el.getObject3D('mesh');
-        if (!mesh) {
+        if (! mesh) {
             return;
         }
 
         mesh.traverse(function (node) {
             const matrixWorld = mesh.matrixWorld;
             if (node.isMesh) {
-                node.onBeforeRender = function() {
+                node.onBeforeRender = function () {
                     const material = node.material;
 
                     var topClippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), data.topClip);
@@ -449,29 +487,57 @@ AFRAME.registerComponent('hexbox-model', {
                     var backClippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), data.backClip);
                     backClippingPlane.applyMatrix4(matrixWorld);
 
-                    material.clippingPlanes = [topClippingPlane, rightClippingPlane, leftClippingPlane, frontClippingPlane, backClippingPlane]
+                    material.clippingPlanes = [
+                        topClippingPlane,
+                        rightClippingPlane,
+                        leftClippingPlane,
+                        frontClippingPlane,
+                        backClippingPlane
+                    ]
                 }
             }
         });
-    },
+    }
 })
 
 
 AFRAME.registerComponent('hexbox-indicator', {
     schema: {
-        chosenModel: {type: 'int'},
+        chosenModel: {
+            type: 'int'
+        },
 
-        leftClip: {type: 'number'},
-        rightClip: {type: 'number'},
-        frontClip: {type: 'number'},
-        backClip: {type: 'number'},
-        topClip: {type: 'number'},
+        leftClip: {
+            type: 'number'
+        },
+        rightClip: {
+            type: 'number'
+        },
+        frontClip: {
+            type: 'number'
+        },
+        backClip: {
+            type: 'number'
+        },
+        topClip: {
+            type: 'number'
+        },
 
-        topActivated: {type: 'int'},
-        leftActivated: {type: 'int'},
-        rightActivated: {type: 'int'},
-        frontActivated: {type: 'int'},
-        backActivated: {type: 'int'},
+        topActivated: {
+            type: 'int'
+        },
+        leftActivated: {
+            type: 'int'
+        },
+        rightActivated: {
+            type: 'int'
+        },
+        frontActivated: {
+            type: 'int'
+        },
+        backActivated: {
+            type: 'int'
+        }
     },
     init: function () {
         const el = this.el;
@@ -542,24 +608,56 @@ AFRAME.registerComponent('hexbox-indicator', {
         const model = models[data.chosenModel];
 
         const topPlane = data.topPlane;
-        topPlane.setAttribute('scale', `${model.width} ${model.depth} 1`);
-        topPlane.setAttribute('position', `0 ${data.topClip} 0`);
+        topPlane.setAttribute('scale', `${
+            model.width
+        } ${
+            model.depth
+        } 1`);
+        topPlane.setAttribute('position', `0 ${
+            data.topClip
+        } 0`);
 
         const leftPlane = data.leftPlane;
-        leftPlane.setAttribute('scale', `${model.depth} ${model.height} 1`);
-        leftPlane.setAttribute('position', `${-data.leftClip} 0 0`);
+        leftPlane.setAttribute('scale', `${
+            model.depth
+        } ${
+            model.height
+        } 1`);
+        leftPlane.setAttribute(
+            'position',
+            `${ - data.leftClip
+            } 0 0`
+        );
 
         const rightPlane = data.rightPlane;
-        rightPlane.setAttribute('scale', `${model.depth} ${model.height} 1`);
-        rightPlane.setAttribute('position', `${data.rightClip} 0 0`);
+        rightPlane.setAttribute('scale', `${
+            model.depth
+        } ${
+            model.height
+        } 1`);
+        rightPlane.setAttribute('position', `${
+            data.rightClip
+        } 0 0`);
 
         const frontPlane = data.frontPlane;
-        frontPlane.setAttribute('scale', `${model.width} ${model.height} 1`);
-        frontPlane.setAttribute('position', `0 0 ${data.frontClip}`);
+        frontPlane.setAttribute('scale', `${
+            model.width
+        } ${
+            model.height
+        } 1`);
+        frontPlane.setAttribute('position', `0 0 ${
+            data.frontClip
+        }`);
 
         const backPlane = data.backPlane;
-        backPlane.setAttribute('scale', `${model.width} ${model.height} 1`);
-        backPlane.setAttribute('position', `0 0 -${data.backClip}`);
+        backPlane.setAttribute('scale', `${
+            model.width
+        } ${
+            model.height
+        } 1`);
+        backPlane.setAttribute('position', `0 0 -${
+            data.backClip
+        }`);
 
         if (data.topActivated == 1) {
             topPlane.setAttribute('visible', true);
@@ -590,5 +688,5 @@ AFRAME.registerComponent('hexbox-indicator', {
         } else {
             backPlane.setAttribute('visible', false);
         }
-    },
+    }
 })
