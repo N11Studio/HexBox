@@ -7,13 +7,27 @@
 //</a-entity>
 
 
+let sensorRight = 500;
+let sensorLeft = 500;
+let sensorTop = 500;
+let sensorBottom = 500;
+let sensorFront = 500;
+let sensorBack = 500;
+
+let buttonRight = 0;
+let buttonLeft = 0;
+let buttonTop = 0;
+let buttonBottom = 0;
+let buttonFront = 0;
+let buttonBack = 0
+ 
 
 const ROOT_OFFSET_X = 0;
 const ROOT_OFFSET_Y = 0;
 const ROOT_OFFSET_Z = 0;
 
 const MIN_SENSOR_VALUE = 50;
-const MAX_SENSOR_VALUE = 500;
+const MAX_SENSOR_VALUE = 450;
 
 const TOP_PLANE_COLOR = '#D81B60';
 const LEFT_PLANE_COLOR = '#8E24AA';
@@ -22,10 +36,44 @@ const FRONT_PLANE_COLOR = '#43A047';
 const BACK_PLANE_COLOR = '#FFB300';
 
 const socket = io();
+window.onload = function (){
+
 
 socket.on ('hello', function(data) {
     console.log("hello, Nizar!")
 })
+
+// Establish socket connection
+
+setInterval(function(){
+    socket.emit('getTouch', "lol")}
+    ,100)
+
+
+}
+
+socket.on ('touch', function(data) {
+    
+    sensorRight = data.right;
+    sensorLeft = data.left;
+    sensorTop = data.top;
+    sensorBottom = data.bottom;
+    sensorFront = data.front;
+    sensorBack = data.back;
+
+    buttonRight = data.righttouch;
+    buttonLeft = data.lefttouch;
+    buttonTop = data.toptouch;
+    buttonBottom = data.bottomtouch;
+    buttonFront = data.fronttouch;
+    buttonBack = data.backtouch;
+    
+   //console.log (buttonBottom);
+
+     })
+
+
+
 
 let architectureConceptModel = {
     src: './assets/models/architecture-concept.glb',
@@ -80,25 +128,27 @@ models.push(skullModelModel);
 models.push(woodenCrateModel);
 
 
+//console.log (sensorRight);
+
 AFRAME.registerComponent('sender', {
     init: function() {
-        const receiver = document.getElementById('hexbox');
-        let a = 500;
-        setInterval(() =>{
-            a -= 50;
-            let sensorRight = 500;
-            let sensorLeft = 500;
-            let sensorTop = 500;
-            let sensorBottom = 500;
-            let sensorFront = 500;
-            let sensorBack = 500;
 
-            let buttonRight = 0;
-            let buttonLeft = 0;
-            let buttonTop = 0;
-            let buttonBottom = 0;
-            let buttonFront = 0;
-            let buttonBack = 0
+        const receiver = document.getElementById('hexbox');
+       
+        setInterval(() =>{
+            // let sensorRight = 500;
+            // let sensorLeft = 500;
+            // let sensorTop = 500;
+            // let sensorBottom = 500;
+            // let sensorFront = 500;
+            // let sensorBack = 500;
+
+            // let buttonRight = 0;
+            // let buttonLeft = 0;
+            // let buttonTop = 0;
+            // let buttonBottom = 0;
+            // let buttonFront = 0;
+            // let buttonBack = 0
 
             receiver.emit('touch',{ sensorRight: sensorRight, sensorLeft: sensorLeft,
                                     sensorTop: sensorTop, sensorBottom: sensorBottom,
@@ -116,6 +166,10 @@ AFRAME.registerComponent('hexbox', {
 
         //Load ThreeJS model loader
         const modelLoader = new THREE.GLTFLoader();
+
+        // set-up renderer
+        renderer = new THREE.WebGLRenderer({ antialias:true, logarithmicDepthBuffer:true, alpha:true, preserveDrawingBuffer:true });
+
 
         //Enable clipping [lanes in the renderer
         el.sceneEl.renderer.localClippingEnabled = true;
@@ -252,7 +306,7 @@ AFRAME.registerComponent('hexbox-parent', {
         buttonBack: {type: 'int'},
     },
     init: function () {
-        console.log('a')
+        //console.log('a')
         const el = this.el;
         const data = this.data;
 

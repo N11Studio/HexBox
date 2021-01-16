@@ -123,6 +123,7 @@ board.on("ready", function() {
   });
  
   //SENSOR FRONT
+
   five.Pin.read(sensor2_front, function(error, frontsensor) {
     
     if (pinval_front !== 0) {
@@ -211,7 +212,7 @@ board.on("ready", function() {
   }, 10);
 
 
-});
+  });
 
 });
 //----------//
@@ -227,7 +228,6 @@ socket.emit('hello', "hello")
     socket.emit('touch',{ right: sensor_right, front: sensor_front, left: sensor_left, top: sensor_top, bottom: sensor_bottom, back: sensor_back, righttouch: pinval_right, lefttouch: pinval_left, fronttouch: pinval_front, backtouch:pinval_back, toptouch:pinval_top, bottomtouch: pinval_bottom });
     })
 });
-
 
 
 server.listen(serverPort, function() {
