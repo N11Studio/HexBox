@@ -177,7 +177,7 @@ AFRAME.registerComponent('hexbox', {
         renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true, alpha: true, preserveDrawingBuffer: true});
 
 
-        // Enable clipping [lanes in the renderer
+        // Enable clipping planes in the renderer
         el.sceneEl.renderer.localClippingEnabled = true;
 
         // Offset root element from constants
