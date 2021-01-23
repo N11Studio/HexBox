@@ -23,7 +23,7 @@ let buttonBack = 0
 
 
 const ROOT_OFFSET_X = 0;
-const ROOT_OFFSET_Y = 0;
+const ROOT_OFFSET_Y = -0.5;
 const ROOT_OFFSET_Z = 0;
 
 const MIN_SENSOR_VALUE = 50;
@@ -103,10 +103,10 @@ let shockAbsorberModel = {
 let skullModelModel = {
     src: './assets/models/skull.glb',
     width: 1.5,
-    height: 2,
+    height: 2.3,
     depth: 2,
     minScale: 0.5,
-    maxScale: 0.2
+    maxScale: 2
 }
 
 let woodenCrateModel = {
@@ -426,7 +426,7 @@ AFRAME.registerComponent('hexbox-parent', {
             backClip: calculateZAxisValue(normalize(data.sensorBack)),
             topClip: calculateYAxisValue(normalize(data.sensorBottom)),
 
-            topActivated: data.buttonTop,
+            topActivated: data.buttonBottom,
             leftActivated: data.buttonLeft,
             rightActivated: data.buttonRight,
             frontActivated: data.buttonFront,
