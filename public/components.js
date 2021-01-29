@@ -347,6 +347,7 @@ AFRAME.registerComponent('hexbox-parent', {
 
         initHexboxModel();
         initHexboxIndicator();
+        
 
         function initHexboxModel() {
             hexboxModelEl = document.createElement('a-entity');
