@@ -162,7 +162,7 @@ AFRAME.registerComponent('sender', {
                 buttonFront: buttonFront,
                 buttonBack: buttonBack
             })
-        }, 30)
+        }, 40)
     }
 });
 

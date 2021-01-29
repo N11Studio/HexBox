@@ -1,6 +1,6 @@
 var five = require("johnny-five");
 const {Board} = require("johnny-five");
-const board = new Board({port: "/dev/cu.usbmodem1D11301"});
+const board = new Board({port: "/dev/cu.usbmodem1D11401"});
 
 // create connection
 var fs = require('fs');
